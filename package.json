@@ -1,0 +1,25 @@
+{
+  "name": "aptoplay-core",
+  "version": "0.0.1",
+  "description": "Aptos Gaming TS library",
+  "scripts": {
+    "build": "tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/catze-labs/aptoplay-core.git"
+  },
+  "author": "Catze-Labs",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/catze-labs/aptoplay-core/issues"
+  },
+  "homepage": "https://github.com/catze-labs/aptoplay-core#readme",
+  "dependencies": {
+    "axios": "^0.27.2"
+  },
+  "devDependencies": {
+    "@types/node": "^18.11.18",
+    "typescript": "^4.9.5"
+  }
+}
