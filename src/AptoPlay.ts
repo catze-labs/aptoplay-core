@@ -63,6 +63,7 @@ export class AptoPlay {
       );
 
       return parseObjectPascalToCamel(res.data.data);
+
     } catch (err: any) {
       throw generateErrorObject('PLAYFAB_LOGIN_WITH_EMAIL_ERROR', err);
     }
