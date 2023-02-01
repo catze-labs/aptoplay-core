@@ -28,6 +28,7 @@ export class AptoPlay {
     return this.baseUrl;
   }
 
+
   public async registerUser(
     email: string,
     password: string,
