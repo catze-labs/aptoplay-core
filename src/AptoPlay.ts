@@ -28,7 +28,11 @@ export class AptoPlay {
     return this.baseUrl;
   }
 
-  public async registerUser(email: string, password: string) {
+  public async registerUser(
+    email: string,
+    password: string,
+    username?: string
+  ) {
     try {
       const res = await axios.post(
         this.baseUrl + '/Client/RegisterPlayFabUser',
@@ -36,13 +40,12 @@ export class AptoPlay {
           TitleId: this.titleId,
           Email: email,
           Password: password,
-          Username: new Date().getTime().toString() // Username: PlayFab username for the account (3-20 characters)
+          // Username: PlayFab username for the account (3-20 characters)
+          Username: username ? username : new Date().getTime().toString()
         }
       );
 
-      const data = parseObjectPascalToCamel(res.data);
-
-      return parseObjectPascalToCamel(data);
+      return parseObjectPascalToCamel(res.data);
     } catch (err: any) {
       throw generateErrorObject('PLAYFAB_REGISTER_WITH_EMAIL_ERROR', err);
     }
@@ -59,9 +62,7 @@ export class AptoPlay {
         }
       );
 
-      const data = parseObjectPascalToCamel(res.data);
-
-      return parseObjectPascalToCamel(data);
+      return parseObjectPascalToCamel(res.data);
     } catch (err: any) {
       throw generateErrorObject('PLAYFAB_LOGIN_WITH_EMAIL_ERROR', err);
     }
