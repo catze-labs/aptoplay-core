@@ -28,8 +28,14 @@ export function parseObjectPascalToCamel(object: { [k: string]: any }): {
   const keys = Object.keys(object);
   for (let key of keys) {
     const value = object.hasOwnProperty(key) ? object[key] : undefined;
-    const newKey = key.charAt(0).toLowerCase() + key.slice(1);
-    newObject[newKey] = value;
+
+    if (typeof value === 'object') {
+      const newKey = key.charAt(0).toLowerCase() + key.slice(1);
+      newObject[newKey] = parseObjectPascalToCamel(value);
+    } else {
+      const newKey = key.charAt(0).toLowerCase() + key.slice(1);
+      newObject[newKey] = value;
+    }
   }
 
   return newObject;
