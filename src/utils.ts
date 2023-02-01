@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { CustomError } from './types';
 
 export function generateErrorObject(
   errorTitle: string,
