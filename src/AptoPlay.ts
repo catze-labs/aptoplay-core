@@ -77,6 +77,30 @@ export class AptoPlay {
   }
 
   /**
+   * Register with Google account.
+   * @param {string} accessToken - The access token of Google account.
+   * @returns {object} Return PlayFab register user result data.
+   */
+  public async registerWithGoogleAccount(accessToken: string) {
+    const email = await getGoogleProfileByAccessToken(accessToken);
+
+    try {
+      const playFabRes = await axios.post(
+        `${this.baseUrl}/Client/LoginWithGoogleAccount`,
+        {
+          TitleId: this.titleId,
+          CreateAccount: true,
+          AccessToken: accessToken
+        }
+      );
+
+      return parseObjectPascalToCamel({ ...playFabRes.data.data, email });
+    } catch (err: any) {
+      throw generateErrorObject('PLAYFAB_GOOGLE_SOCIAL_REGISER_ERROR', err);
+    }
+  }
+
+  /**
    * Login with email and password.
    * @param {string} email - The email of user.
    * @param {string} password - The password of user.
@@ -104,7 +128,7 @@ export class AptoPlay {
    * @param {string} accessToken - The access token of Google account.
    * @returns {object} Return PlayFab register user result data.
    */
-  public async registerWithGoogleAccount(accessToken: string) {
+  public async loginWithGoogleAccount(accessToken: string) {
     const email = await getGoogleProfileByAccessToken(accessToken);
 
     try {
@@ -112,14 +136,14 @@ export class AptoPlay {
         `${this.baseUrl}/Client/LoginWithGoogleAccount`,
         {
           TitleId: this.titleId,
-          CreateAccount: true,
+          CreateAccount: false,
           AccessToken: accessToken
         }
       );
 
       return parseObjectPascalToCamel({ ...playFabRes.data.data, email });
     } catch (err: any) {
-      throw generateErrorObject('PLAYFAB_GOOGLE_SOCIAL_REGISER_ERROR', err);
+      throw generateErrorObject('PLAYFAB_GOOGLE_SOCIAL_LOGIN_ERROR', err);
     }
   }
 }
