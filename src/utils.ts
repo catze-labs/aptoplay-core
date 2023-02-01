@@ -15,8 +15,6 @@ export function generateErrorObject(
     error.rawError['code'] = errorObject.code;
     error.rawError['response'] = errorObject.response;
     error.rawError['message'] = errorObject.message;
-  } else {
-    error.rawError = errorObject;
   }
 
   return error;
