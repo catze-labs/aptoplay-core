@@ -10,24 +10,49 @@ export class AptoPlay {
   private xSecretKey: string;
   private baseUrl: string;
 
+  /**
+   * Represents a book.
+   * @constructor
+   * @param {string} titleId - The title ID of your PlayFab Title.
+   * @param {string} xSecretKey - The X-SECRET-KEY of your PlayFab Title.
+   */
   constructor(titleId: string, xSecretKey: string) {
     this.titleId = titleId;
     this.xSecretKey = xSecretKey;
     this.baseUrl = `https://${titleId}.playfabapi.com`;
   }
 
+  /**
+   * Get title ID of your PlayFab Title.
+   * @returns {string} Return title ID of your PlayFab Title.
+   */
   public getTitleId(): string {
     return this.titleId;
   }
 
+  /**
+   * Get X-SECRET_KEY of your PlayFab Title.
+   * @returns {string} Return X-SECRET_KEY of your PlayFab Title.
+   */
   public getXSecretKey(): string {
     return this.xSecretKey;
   }
 
+  /**
+   * Get API Endpoint of your PlayFab Title.
+   * @returns {string} Return API Endpoint of your PlayFab Title.
+   */
   public getBaseUrl(): string {
     return this.baseUrl;
   }
 
+  /**
+   * Register a PlayFab User.
+   * @param {string} email - The email of user.
+   * @param {string} password - The password of user.
+   * @param {string} username - The username of user.
+   * @returns {object} Return PlayFab register user result data.
+   */
   public async registerUser(
     email: string,
     password: string,
@@ -51,6 +76,12 @@ export class AptoPlay {
     }
   }
 
+  /**
+   * Login with email and password.
+   * @param {string} email - The email of user.
+   * @param {string} password - The password of user.
+   * @returns {object} Return PlayFab user data.
+   */
   public async login(email: string, password: string) {
     try {
       const res = await axios.post(
@@ -63,12 +94,16 @@ export class AptoPlay {
       );
 
       return parseObjectPascalToCamel(res.data.data);
-
     } catch (err: any) {
       throw generateErrorObject('PLAYFAB_LOGIN_WITH_EMAIL_ERROR', err);
     }
   }
 
+  /**
+   * Login with Google account.
+   * @param {string} accessToken - The access token of Google account.
+   * @returns {object} Return PlayFab register user result data.
+   */
   public async registerWithGoogleAccount(accessToken: string) {
     const email = await getGoogleProfileByAccessToken(accessToken);
 
