@@ -1,7 +1,5 @@
-export interface CustomError {
-  errorTitle: string;
+export class AptoPlayError extends Error {
   code?: number;
   response?: any;
-  message?: string;
-  errorObject: any;
+  rawError: any;
 }

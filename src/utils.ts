@@ -1,21 +1,22 @@
 import axios from 'axios';
-import { CustomError } from './types';
+import { AptoPlayError } from './types';
 
 export function generateErrorObject(
-  errorTitle: string,
+  errorName: string,
   errorObject: any
-): CustomError {
-  const error: CustomError = {
-    errorTitle,
-    errorObject: {}
+): AptoPlayError {
+  const error: AptoPlayError = {
+    name: errorName,
+    rawError: {},
+    message: ''
   };
 
   if (axios.isAxiosError(errorObject)) {
-    error.errorObject['code'] = errorObject.code;
-    error.errorObject['response'] = errorObject.response;
-    error.errorObject['message'] = errorObject.message;
+    error.rawError['code'] = errorObject.code;
+    error.rawError['response'] = errorObject.response;
+    error.rawError['message'] = errorObject.message;
   } else {
-    error.errorObject = errorObject;
+    error.rawError = errorObject;
   }
 
   return error;
