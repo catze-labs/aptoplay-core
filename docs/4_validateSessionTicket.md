@@ -6,7 +6,7 @@
 
 ## Glossaries
 
-`sessionTicket` : Kind of access code when user login/register to PlayFab title.
+`sessionTicket` : Kind of access token when user login/register to PlayFab title.
 
 ## Pre-Requirements
 
