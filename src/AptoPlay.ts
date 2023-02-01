@@ -28,7 +28,6 @@ export class AptoPlay {
     return this.baseUrl;
   }
 
-
   public async registerUser(
     email: string,
     password: string,
@@ -46,7 +45,7 @@ export class AptoPlay {
         }
       );
 
-      return parseObjectPascalToCamel(res.data);
+      return parseObjectPascalToCamel(res.data.data);
     } catch (err: any) {
       throw generateErrorObject('PLAYFAB_REGISTER_WITH_EMAIL_ERROR', err);
     }
@@ -63,7 +62,8 @@ export class AptoPlay {
         }
       );
 
-      return parseObjectPascalToCamel(res.data);
+      return parseObjectPascalToCamel(res.data.data);
+
     } catch (err: any) {
       throw generateErrorObject('PLAYFAB_LOGIN_WITH_EMAIL_ERROR', err);
     }
@@ -82,7 +82,7 @@ export class AptoPlay {
         }
       );
 
-      return parseObjectPascalToCamel({ ...playFabRes, email });
+      return parseObjectPascalToCamel({ ...playFabRes.data.data, email });
     } catch (err: any) {
       throw generateErrorObject('PLAYFAB_GOOGLE_SOCIAL_REGISER_ERROR', err);
     }
