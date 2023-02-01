@@ -7,7 +7,7 @@ export function generateErrorObject(
 ): AptoPlayError {
   const error: AptoPlayError = {
     name: errorName,
-    rawError: {},
+    rawError: errorObject,
     message: ''
   };
 
