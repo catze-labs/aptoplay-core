@@ -1,8 +1,8 @@
-# AptoPlay Register User By Google Account
+# AptoPlay Sign-in User By Google Account
 
 ## Description
 
-`aptoplay-core` provides very easy method for user registration using Google OAuth
+`aptoplay-core` provides very easy method for user login using Google OAuth
 
 ## Glossaries
 
@@ -25,8 +25,8 @@ If you prepared, Let's do it.
 // Make a Aptoplay Object
 const aptoPlay = new AptoPlay('titleId', 'x-secret-key');
 
-// register function with accessToken
-const registerResponse = await aptoPlay.loginWithGoogleAccount(accessToken);
+// login function with accessToken
+const loginResponse = await aptoPlay.loginWithGoogleAccount(accessToken);
 ```
 
 ## Examples
@@ -36,7 +36,7 @@ const registerResponse = await aptoPlay.loginWithGoogleAccount(accessToken);
 const aptoPlay = new AptoPlay(titleId, xSecretKey);
 
 const accessToken = '4/k32dkckksi2uif03kacnjsd03kdk...';
-const registerResponse = await aptoPlay.loginWithGoogleAccount(accessToken);
+const loginResponse = await aptoPlay.loginWithGoogleAccount(accessToken);
 ```
 
 ### Parameter
