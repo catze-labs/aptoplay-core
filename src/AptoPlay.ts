@@ -219,8 +219,6 @@ export class AptoPlay {
         };
       }
 
-      console.log(returnObject);
-
       return returnObject;
     } catch (err: any) {
       throw generateErrorObject('PLAYFAB_GET_GAME_DATA_ERROR', err);
@@ -263,8 +261,6 @@ export class AptoPlay {
           version: value.version
         };
       }
-
-      console.log(returnObject);
 
       return returnObject;
     } catch (err: any) {
