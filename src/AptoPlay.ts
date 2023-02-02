@@ -206,7 +206,8 @@ export class AptoPlay {
         }
       });
 
-      const data = parseObjectPascalToCamel(response.data.data['statistics']);
+      const parsedData = parseObjectPascalToCamel(response.data.data);
+      const data = parseObjectPascalToCamel(parsedData['statistics']);
       const returnObject: { [k: string]: any } = {};
 
       const values = data.values();
@@ -249,7 +250,8 @@ export class AptoPlay {
         }
       });
 
-      const data = parseObjectPascalToCamel(response.data.data['statistics']);
+      const parsedData = parseObjectPascalToCamel(response.data.data);
+      const data = parseObjectPascalToCamel(parsedData['statistics']);
       const returnObject: { [k: string]: any } = {};
 
       const values = data.values();
