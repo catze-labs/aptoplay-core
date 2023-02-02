@@ -5,12 +5,11 @@ export function generateErrorObject(
   errorName: string,
   errorObject: any
 ): AptoPlayError {
-  const error: AptoPlayError = {
-    name: errorName,
-    rawError: errorObject,
-    message: ''
-  };
+  const error: AptoPlayError = new AptoPlayError();
 
+  error.name = errorName;
+  error.rawError = errorObject;
+  error.message = '';
   if (axios.isAxiosError(errorObject)) {
     error.rawError['code'] = errorObject.code;
     error.rawError['response'] = errorObject.response;
