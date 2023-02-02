@@ -207,6 +207,7 @@ export class AptoPlay {
       });
 
       const parsedData = parseObjectPascalToCamel(response.data.data);
+      console.log(parsedData);
       const data = parseObjectPascalToCamel(parsedData['statistics']);
       const returnObject: { [k: string]: any } = {};
 
@@ -251,6 +252,7 @@ export class AptoPlay {
       });
 
       const parsedData = parseObjectPascalToCamel(response.data.data);
+      console.log(parsedData);
       const data = parseObjectPascalToCamel(parsedData['statistics']);
       const returnObject: { [k: string]: any } = {};
 
