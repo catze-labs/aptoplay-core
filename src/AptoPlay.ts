@@ -206,13 +206,10 @@ export class AptoPlay {
         }
       });
 
-      console.log(response.data.data);
-      const data: Statistic[] = response.data.data['statistics'];
-      console.log(data);
+      const data = parseObjectPascalToCamel(response.data.data['statistics']);
       const returnObject: { [k: string]: any } = {};
 
       const values = data.values();
-      console.log(values);
       for (const value of values) {
         returnObject[value.statisticName] = {
           value: value.value,
@@ -252,7 +249,7 @@ export class AptoPlay {
         }
       });
 
-      const data: Statistic[] = response.data.data['statistics'];
+      const data = parseObjectPascalToCamel(response.data.data['statistics']);
       const returnObject: { [k: string]: any } = {};
 
       const values = data.values();
