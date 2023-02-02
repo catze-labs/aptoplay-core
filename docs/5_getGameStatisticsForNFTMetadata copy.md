@@ -1,4 +1,4 @@
-# AptoPlay Get Game Statistics For NFT Metadata
+# AptoPlay Get Game Statistics For NFT Metadata - I
 
 ## Description
 
@@ -11,7 +11,7 @@
 
 ## Pre-Requirements
 
-Game Statistics Data : Your unity game should be provide a user(player) statistics to PlayFab. [here](https://learn.microsoft.com/en-us/gaming/playfab/features/data/playerdata/using-player-statistics) is a detail documents
+Game Statistics Data : Your unity game should be provide a user(player) statistics to PlayFab. [here](https://learn.microsoft.com/en-us/gaming/playfab/features/data/playerdata/using-player-statistics) is a detail document.
 
 ## How to use
 
@@ -21,9 +21,9 @@ Game Statistics Data : Your unity game should be provide a user(player) statisti
 // Make a Aptoplay Object
 const aptoPlay = new AptoPlay('titleId', 'x-secret-key');
 
-// register function
-const registerResponse = await aptoPlay.getGameStatisticsForNFTMetadata(
-  ["statisticName1", ...],
+// Using statistic names
+const gameData = await aptoPlay.getGameStatisticsByStatisticNamesForNFTMetadata(
+  ["Your statistic name here", ...],
   'sessionTicket-here'
 );
 ```
@@ -38,14 +38,15 @@ const xSecretKey: string = 'xdi29992mzp0dk38fhs33d984sdc...';
 // Make a Aptoplay Object
 const aptoPlay = new AptoPlay(titleId, xSecretKey);
 
-const usingStatisticNames = ['KillMonsterCount'];
-
 // Received User's sessionTicket
 const userSessionTicket =
   'E25A3C084C9108E-54451EB113976F20-8889B16454D70C18-5059E-8DB043499A05B39-UAGtR87fTAYmpZy2C0MUieqTPm7ngJcNUDgZH7b0pHE=';
 
+// Statistic Names
+const usingStatisticNames = ['killMonsterCount'];
+
 // Call method
-const userPlayFabId = await aptoPlay.validateAndGetPlayFabIdBySessionTicket(
+const gameData = await aptoPlay.getGameStatisticsByStatisticNamesForNFTMetadata(
   usingStatisticNames,
   userSessionTicket
 );

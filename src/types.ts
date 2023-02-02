@@ -3,3 +3,8 @@ export class AptoPlayError extends Error {
   response?: any;
   rawError: any;
 }
+
+export interface StatisticVersion {
+  statisticName: string;
+  version: number;
+}
