@@ -2,7 +2,7 @@
   "name": "aptoplay-core",
   "author": "Catze-Labs",
   "license": "MIT",
-  "version": "0.0.27",
+  "version": "0.0.28",
   "description": "Aptos Gaming TS library",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
