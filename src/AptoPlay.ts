@@ -405,15 +405,11 @@ export class AptoPlay {
     }
 
     const contractInfo = this.aliasSmartContractInfoObject[smartContractAlias];
-
     const systemAccount = AptosAccount.fromAptosAccountObject(
       this.systemAccountObject
     );
 
-    // const sequenceNumber = (
-    //   await this.aptosClient.getAccount(systemAccount.address())
-    // ).sequence_number;
-
+    // Make Payload
     const entryFunctionPayload =
       new TxnBuilderTypes.TransactionPayloadEntryFunction(
         new TxnBuilderTypes.EntryFunction(
@@ -425,43 +421,49 @@ export class AptoPlay {
           new TxnBuilderTypes.Identifier(
             `${contractInfo.contractFunctionName}`
           ),
-          // The coin type to transfer
           [],
-          // Arguments for function `transfer`: receiver account address and amount to transfer
           []
         )
       );
 
-    const [{ sequence_number: sequenceNumber }, chainId] = await Promise.all([
-      this.aptosClient.getAccount(systemAccount.address()),
-      this.aptosClient.getChainId()
-    ]);
+    try {
+      // Get Sequence Number and Chain ID
+      const [{ sequence_number: sequenceNumber }, chainId] = await Promise.all([
+        this.aptosClient.getAccount(systemAccount.address()),
+        this.aptosClient.getChainId()
+      ]);
 
-    const rawTransaction = new TxnBuilderTypes.RawTransaction(
-      // Transaction sender account address
-      TxnBuilderTypes.AccountAddress.fromHex(systemAccount.address()),
-      BigInt(sequenceNumber),
-      entryFunctionPayload,
-      // Max gas unit to spend
-      BigInt(200_000),
-      // Gas price per unit
-      BigInt(100),
-      // Expiration timestamp. Transaction is discarded if it is not executed within 10 seconds from now.
-      BigInt(Math.floor(Date.now() / 1000) + 10),
-      new TxnBuilderTypes.ChainId(chainId)
-    );
+      // Make Raw Tx
+      const rawTransaction = new TxnBuilderTypes.RawTransaction(
+        // Transaction sender account address
+        TxnBuilderTypes.AccountAddress.fromHex(systemAccount.address()),
+        BigInt(sequenceNumber),
+        entryFunctionPayload,
+        // Max gas unit to spend
+        BigInt(200_000),
+        // Gas price per unit
+        BigInt(100),
+        // Expiration timestamp. Transaction is discarded if it is not executed within 10 seconds from now.
+        BigInt(Math.floor(Date.now() / 1000) + 10),
+        new TxnBuilderTypes.ChainId(chainId)
+      );
 
-    const bcsTxn = AptosClient.generateBCSTransaction(
-      systemAccount,
-      rawTransaction
-    );
+      // Serialize Raw Tx
+      const bcsTxn = AptosClient.generateBCSTransaction(
+        systemAccount,
+        rawTransaction
+      );
 
-    const txRes = await this.aptosClient.submitSignedBCSTransaction(bcsTxn);
+      // Send transaction
+      const txRes = await this.aptosClient.submitSignedBCSTransaction(bcsTxn);
 
-    const transaction = await this.aptosClient.waitForTransactionWithResult(
-      txRes.hash
-    );
-
-    return transaction.hash;
+      // Wait for transaction to be executed
+      const transaction = await this.aptosClient.waitForTransactionWithResult(
+        txRes.hash
+      );
+      return transaction.hash;
+    } catch (err) {
+      throw generateErrorObject('APTOS_MINT_TO_SYSTEM_WALLET_ERROR', err);
+    }
   }
 }
