@@ -23,7 +23,7 @@ yarn add aptoplay-core
 
 ## How to use
 
-Notice point is, We highly recommend using this library in your backend.
+> Notice : We test and use in backend (server).
 
 First step to use, Import library in your code.
 
