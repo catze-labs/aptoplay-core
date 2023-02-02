@@ -24,8 +24,8 @@ const aptoPlay = new AptoPlay('titleId', 'x-secret-key');
 // Using statistic Versions
 const gameData =
   await aptoPlay.getGameStatisticsByStatisticVersionsForNFTMetadata(
-    [{ statisticName: 'Your statistic name here', version: versionNumber }],
-    'sessionTicket-here'
+    'sessionTicket-here',
+    [{ statisticName: 'Your statistic name here', version: versionNumber }]
   );
 ```
 
@@ -51,8 +51,8 @@ const statisticVersions = [
 ];
 
 const gameData = getGameStatisticsByStatisticVersionsForNFTMetadata(
-  statisticVersions,
-  userSessionTicket
+  userSessionTicket,
+  statisticVersions
 );
 ```
 

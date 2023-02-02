@@ -1,6 +1,6 @@
 {
   "name": "aptoplay-core",
-  "version": "0.0.16",
+  "version": "0.0.17",
   "description": "Aptos Gaming TS library",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

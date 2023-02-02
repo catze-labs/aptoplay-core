@@ -23,8 +23,8 @@ const aptoPlay = new AptoPlay('titleId', 'x-secret-key');
 
 // Using statistic names
 const gameData = await aptoPlay.getGameStatisticsByStatisticNamesForNFTMetadata(
-  ["Your statistic name here", ...],
-  'sessionTicket-here'
+  'sessionTicket-here',
+  ["Your statistic name here", ...]
 );
 ```
 
@@ -47,8 +47,8 @@ const usingStatisticNames = ['killMonsterCount'];
 
 // Call method
 const gameData = await aptoPlay.getGameStatisticsByStatisticNamesForNFTMetadata(
-  usingStatisticNames,
   userSessionTicket
+  usingStatisticNames,
 );
 ```
 
