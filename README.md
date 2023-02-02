@@ -16,7 +16,7 @@ We will do our best to assist with your issue reporting.
 ```bash
 npm install aptoplay-core
 
-# or
+# OR
 
 yarn add aptoplay-core
 ```
