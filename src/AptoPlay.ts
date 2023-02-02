@@ -1,26 +1,112 @@
 import axios from 'axios';
-import { Statistic, StatisticVersion } from './types';
+import { AliasSmartContractInfo, Statistic, StatisticVersion } from './types';
 import {
   generateErrorObject,
   getGoogleProfileByAccessToken,
+  isEmptyObject,
   parseObjectPascalToCamel
 } from './utils';
+
+import {
+  AptosClient,
+  FaucetClient,
+  CoinClient,
+  AptosAccount,
+  AptosAccountObject,
+  TxnBuilderTypes,
+  BCS,
+  TokenClient,
+  getAddressFromAccountOrAddress
+} from 'aptos';
 
 export class AptoPlay {
   private titleId: string;
   private xSecretKey: string;
   private baseUrl: string;
 
+  private aptosNodeUrl: string;
+  private aptosClient: AptosClient;
+
+  private faucetUrl: string;
+  private faucetClient: FaucetClient;
+
+  private aliasSmartContractInfoObject: { [k: string]: AliasSmartContractInfo };
+
+  private systemAccountObject: AptosAccountObject | null;
+
   /**
    * Represents a book.
    * @constructor
    * @param {string} titleId - The title ID of your PlayFab Title.
    * @param {string} xSecretKey - The X-SECRET-KEY of your PlayFab Title.
+   * @param {string} aptosNodeUrl - The Aptos Node URL.
+   * @param {string} faucetUrl - The Aptos Faucet URL.
+   * @param {object} aliasSmartContractInfoObject - The smart contract list object. {'alias': 'contract address'}
+   * @param {AptosAccountObject} systemAccountObject - The system Aptos Account object.
    */
-  constructor(titleId: string, xSecretKey: string) {
+  constructor(
+    titleId: string,
+    xSecretKey: string,
+    aptosNodeUrl: string = 'https://fullnode.devnet.aptoslabs.com',
+    faucetUrl: string = 'https://faucet.devnet.aptoslabs.com',
+    aliasSmartContractInfoObject?: { [k: string]: AliasSmartContractInfo },
+    systemAccountObject?: AptosAccountObject
+  ) {
     this.titleId = titleId;
     this.xSecretKey = xSecretKey;
     this.baseUrl = `https://${titleId}.playfabapi.com`;
+    this.aptosNodeUrl = aptosNodeUrl;
+    this.aptosClient = new AptosClient(aptosNodeUrl);
+
+    this.faucetUrl = faucetUrl;
+    this.faucetClient = new FaucetClient(aptosNodeUrl, faucetUrl);
+
+    this.aliasSmartContractInfoObject = aliasSmartContractInfoObject
+      ? aliasSmartContractInfoObject
+      : {};
+
+    this.systemAccountObject = systemAccountObject ? systemAccountObject : null;
+  }
+
+  /**
+   *
+   * @param {string} aptosNodeUrl - The Aptos Node URL.
+   * @param {string} faucetUrl - The Aptos Faucet URL.
+   * @param {object} aliasSmartContractInfoObject - The smart contract list object. {'alias': 'contract address'}
+   * @param {AptosAccountObject} systemAccountObject - The system Aptos Account object.
+   */
+  public setAptosInformation(
+    aptosNodeUrl: string = 'https://fullnode.devnet.aptoslabs.com',
+    faucetUrl: string = 'https://faucet.devnet.aptoslabs.com',
+    aliasSmartContractInfoObject: { [k: string]: AliasSmartContractInfo },
+    systemAccountObject: AptosAccountObject
+  ) {}
+
+  /**
+   * @param {string} aptosNodeUrl - The Aptos Node URL.
+   * @param {string} faucetUrl - The Aptos Faucet URL.
+   */
+  public setAptosNodeAndFaucetUrl(aptosNodeUrl: string, faucetUrl: string) {
+    this.aptosNodeUrl = aptosNodeUrl;
+    this.aptosClient = new AptosClient(aptosNodeUrl);
+    this.faucetUrl = faucetUrl;
+    this.faucetClient = new FaucetClient(aptosNodeUrl, faucetUrl);
+  }
+
+  /**
+   * @param {object} aliasSmartContractInfoObject - The smart contract list object. {'alias': 'contract address'}
+   */
+  public setAliasSmartContractInfoObject(aliasSmartContractInfoObject: {
+    [k: string]: AliasSmartContractInfo;
+  }) {
+    this.aliasSmartContractInfoObject = aliasSmartContractInfoObject;
+  }
+
+  /**
+   * @param {AptosAccountObject} systemAccountObject - The system Aptos Account object.
+   */
+  public setAptosSystemAccountObject(systemAccountObject: AptosAccountObject) {
+    this.systemAccountObject = systemAccountObject;
   }
 
   /**
@@ -45,6 +131,42 @@ export class AptoPlay {
    */
   public getBaseUrl(): string {
     return this.baseUrl;
+  }
+
+  /**
+   * Get Aptos Node URL.
+   * @returns {string} Return Aptos Node Url when you initialized AptoPlay Object.
+   */
+  public getAptosNodeUrl(): string {
+    return this.aptosNodeUrl ? this.aptosNodeUrl : '';
+  }
+
+  /**
+   * Get Aptos Faucet URL.
+   * @returns {string} Return Aptos Faucet Url when you initialized AptoPlay Object.
+   */
+  public getFaucetUrl(): string {
+    return this.faucetUrl ? this.faucetUrl : '';
+  }
+
+  /**
+   * Get Smart Contract Alias-Address Object.
+   * @returns {object | null} Return Smart Contract Alias-Address object when you initialized AptoPlay Object. If not initialized, return null.
+   */
+  public getAliasSmartContractInfoObject(): {
+    [k: string]: AliasSmartContractInfo;
+  } | null {
+    return this.aliasSmartContractInfoObject
+      ? this.aliasSmartContractInfoObject
+      : null;
+  }
+
+  /**
+   * Get System Account Object.
+   * @returns {object | null} Return System Account object when you initialized AptoPlay Object. If not initialized, return null.
+   */
+  public getSystemAccountObject(): AptosAccountObject | null {
+    return this.systemAccountObject ? this.systemAccountObject : null;
   }
 
   /**
@@ -266,5 +388,80 @@ export class AptoPlay {
     } catch (err: any) {
       throw generateErrorObject('PLAYFAB_GET_GAME_DATA_ERROR', err);
     }
+  }
+
+  async mintToSystemWallet(smartContractAlias: string): Promise<string> {
+    // Validate smart contract alias
+    if (
+      !this.aliasSmartContractInfoObject ||
+      isEmptyObject(this.aliasSmartContractInfoObject)
+    ) {
+      throw generateErrorObject('SMART_CONTRACT_ALIAS_ADDRESS_NOT_FOUND');
+    }
+
+    // Validate system account
+    if (!this.systemAccountObject || isEmptyObject(this.systemAccountObject)) {
+      throw generateErrorObject('SYSTEM_ACCOUNT_NOT_FOUND');
+    }
+
+    const contractInfo = this.aliasSmartContractInfoObject[smartContractAlias];
+
+    const systemAccount = AptosAccount.fromAptosAccountObject(
+      this.systemAccountObject
+    );
+
+    // const sequenceNumber = (
+    //   await this.aptosClient.getAccount(systemAccount.address())
+    // ).sequence_number;
+
+    const entryFunctionPayload =
+      new TxnBuilderTypes.TransactionPayloadEntryFunction(
+        new TxnBuilderTypes.EntryFunction(
+          // Fully qualified module name, `AccountAddress::ModuleName`
+          TxnBuilderTypes.ModuleId.fromStr(
+            `0x${contractInfo.contractAddress}::${contractInfo.contractModuleName}`
+          ),
+          // Module function
+          new TxnBuilderTypes.Identifier(
+            `${contractInfo.contractFunctionName}`
+          ),
+          // The coin type to transfer
+          [],
+          // Arguments for function `transfer`: receiver account address and amount to transfer
+          []
+        )
+      );
+
+    const [{ sequence_number: sequenceNumber }, chainId] = await Promise.all([
+      this.aptosClient.getAccount(systemAccount.address()),
+      this.aptosClient.getChainId()
+    ]);
+
+    const rawTransaction = new TxnBuilderTypes.RawTransaction(
+      // Transaction sender account address
+      TxnBuilderTypes.AccountAddress.fromHex(systemAccount.address()),
+      BigInt(sequenceNumber),
+      entryFunctionPayload,
+      // Max gas unit to spend
+      BigInt(200_000),
+      // Gas price per unit
+      BigInt(100),
+      // Expiration timestamp. Transaction is discarded if it is not executed within 10 seconds from now.
+      BigInt(Math.floor(Date.now() / 1000) + 10),
+      new TxnBuilderTypes.ChainId(chainId)
+    );
+
+    const bcsTxn = AptosClient.generateBCSTransaction(
+      systemAccount,
+      rawTransaction
+    );
+
+    const txRes = await this.aptosClient.submitSignedBCSTransaction(bcsTxn);
+
+    const transaction = await this.aptosClient.waitForTransactionWithResult(
+      txRes.hash
+    );
+
+    return transaction.hash;
   }
 }

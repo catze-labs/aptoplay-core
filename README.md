@@ -37,13 +37,55 @@ import { AptoPlay } from 'aptoplay-core';
 const AptoPlay = new AptoPlay(
   'your playfab title id',
   'your title x-secret-key'
+  'Aptos Node Url',
+  'Aptos Faucet Url',
+  {
+    alias : {
+      contractAddress:
+        'address without 0x',
+      contractModuleName: 'Module Name',
+      contractFunctionName: 'Method Name'
+    }
+  },
+  {
+    address: '0xSystem-wallet-address',
+    publicKeyHex: 'publicKeyHex',
+    privateKeyHex: 'privateKeyHex'
+  });
+
+
+// OR
+
+const AptoPlay = new AptoPlay(
+  'your playfab title id',
+  'your title x-secret-key'
 );
+
+AptoPlay.setAptosInformation(
+  'Aptos Node Url',
+  'Aptos Faucet Url',
+  {
+    alias : {
+      contractAddress:
+        'address without 0x',
+      contractModuleName: 'Module Name',
+      contractFunctionName: 'Method Name'
+    }
+  },
+  {
+    address: '0xSystem-wallet-address',
+    publicKeyHex: 'publicKeyHex',
+    privateKeyHex: 'privateKeyHex'
+  })
+
+
 ```
 
 ## Library Dependencies
 
 - TypeScript >= 4.x
 - Axios
+- Aptos
 
 ## License
 

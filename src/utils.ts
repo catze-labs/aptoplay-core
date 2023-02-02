@@ -3,13 +3,17 @@ import { AptoPlayError } from './types';
 
 export function generateErrorObject(
   errorName: string,
-  errorObject: any
+  errorObject?: any
 ): AptoPlayError {
   const error: AptoPlayError = new AptoPlayError();
 
   error.name = errorName;
-  error.rawError = errorObject;
   error.message = '';
+
+  if (errorObject) {
+    error.rawError = errorObject;
+  }
+
   if (axios.isAxiosError(errorObject)) {
     error.rawError['code'] = errorObject.code;
     error.rawError['response'] = errorObject.response;
@@ -57,4 +61,8 @@ export async function getGoogleProfileByAccessToken(
   } catch (err: any) {
     throw generateErrorObject('GOOGLE_GET_PROFILE_ERROR', err);
   }
+}
+
+export function isEmptyObject(obj: object) {
+  return Object.keys(obj).length === 0;
 }
