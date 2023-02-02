@@ -207,19 +207,17 @@ export class AptoPlay {
       });
 
       const parsedData = parseObjectPascalToCamel(response.data.data);
-      console.log(parsedData);
-      const data = parseObjectPascalToCamel(parsedData['statistics']);
+      const data = parsedData['statistics'];
       const returnObject: { [k: string]: any } = {};
 
-      const values = data.values();
-      for (const value of values) {
+      const keys = Object.keys(data);
+      for (const k of keys) {
+        const value = data[k];
         returnObject[value.statisticName] = {
           value: value.value,
           version: value.version
         };
       }
-
-      console.log(returnObject);
 
       return returnObject;
     } catch (err: any) {
@@ -252,12 +250,12 @@ export class AptoPlay {
       });
 
       const parsedData = parseObjectPascalToCamel(response.data.data);
-      console.log(parsedData);
-      const data = parseObjectPascalToCamel(parsedData['statistics']);
+      const data = parsedData['statistics'];
       const returnObject: { [k: string]: any } = {};
 
-      const values = data.values();
-      for (const value of values) {
+      const keys = Object.keys(data);
+      for (const k of keys) {
+        const value = data[k];
         returnObject[value.statisticName] = {
           value: value.value,
           version: value.version
