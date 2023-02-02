@@ -206,6 +206,7 @@ export class AptoPlay {
         }
       });
 
+      console.log(response.data.data);
       const data: Statistic[] = response.data.data['statistics'];
       console.log(data);
       const returnObject: { [k: string]: any } = {};
