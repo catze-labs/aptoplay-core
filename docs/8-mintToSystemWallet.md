@@ -111,6 +111,9 @@ N/A
 
 ### Result/Response
 
+`mintToSystemWallet` function only return transaction hash string.  
+For example, Backend server will be return `additionalData`
+
 ```json
 
 ```
