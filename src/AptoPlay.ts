@@ -207,9 +207,11 @@ export class AptoPlay {
       });
 
       const data: Statistic[] = response.data.data['statistics'];
+      console.log(data);
       const returnObject: { [k: string]: any } = {};
 
       const values = data.values();
+      console.log(values);
       for (const value of values) {
         returnObject[value.statisticName] = {
           value: value.value,
