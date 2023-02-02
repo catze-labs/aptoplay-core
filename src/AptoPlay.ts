@@ -208,8 +208,8 @@ export class AptoPlay {
         }
       );
 
-      console.log(response.data);
-      return parseObjectPascalToCamel(response.data);
+      console.log(response.data.data);
+      return parseObjectPascalToCamel(response.data.data);
     } catch (err: any) {
       throw generateErrorObject('PLAYFAB_GET_GAME_DATA_ERROR', err);
     }
