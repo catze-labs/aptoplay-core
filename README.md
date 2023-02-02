@@ -44,3 +44,7 @@ const AptoPlay = new AptoPlay(
 
 - TypeScript >= 4.x
 - Axios
+
+## License
+
+MIT License

@@ -12,7 +12,7 @@
     "url": "git+https://github.com/catze-labs/aptoplay-core.git"
   },
   "author": "Catze-Labs",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/catze-labs/aptoplay-core/issues"
   },
