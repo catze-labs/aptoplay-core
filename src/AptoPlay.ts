@@ -97,7 +97,7 @@ export class AptoPlay {
 
       return parseObjectPascalToCamel({ ...playFabRes.data.data, email });
     } catch (err: any) {
-      throw generateErrorObject('PLAYFAB_GOOGLE_SOCIAL_REGISER_ERROR', err);
+      throw generateErrorObject('PLAYFAB_GOOGLE_SOCIAL_REGISTER_ERROR', err);
     }
   }
 
