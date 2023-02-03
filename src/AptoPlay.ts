@@ -403,8 +403,19 @@ export class AptoPlay {
 
     // Validate system account
     if (!this.systemAccountObject || isEmptyObject(this.systemAccountObject)) {
-      throw generateErrorObject('SYSTEM_ACCOUNT_NOT_FOUND', {
-        message: 'System account not found.'
+      throw generateErrorObject('SYSTEM_ACCOUNT_OBJECT_NOT_FOUND', {
+        message: 'System account object not found.'
+      });
+    }
+
+    // Validate system account properties
+    if (
+      !this.systemAccountObject.address ||
+      !this.systemAccountObject.publicKeyHex ||
+      !this.systemAccountObject.privateKeyHex
+    ) {
+      throw generateErrorObject('SYSTEM_ACCOUNT_PROPERTIES_NOT_FOUND', {
+        message: "System account properties didn't normally initialized."
       });
     }
 
