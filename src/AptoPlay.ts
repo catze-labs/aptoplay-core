@@ -396,12 +396,16 @@ export class AptoPlay {
       !this.aliasSmartContractInfoObject ||
       isEmptyObject(this.aliasSmartContractInfoObject)
     ) {
-      throw generateErrorObject('SMART_CONTRACT_ALIAS_ADDRESS_NOT_FOUND');
+      throw generateErrorObject('SMART_CONTRACT_ALIAS_ADDRESS_NOT_FOUND', {
+        message: 'Smart contract alias address not found.'
+      });
     }
 
     // Validate system account
     if (!this.systemAccountObject || isEmptyObject(this.systemAccountObject)) {
-      throw generateErrorObject('SYSTEM_ACCOUNT_NOT_FOUND');
+      throw generateErrorObject('SYSTEM_ACCOUNT_NOT_FOUND', {
+        message: 'System account not found.'
+      });
     }
 
     const contractInfo = this.aliasSmartContractInfoObject[smartContractAlias];
