@@ -8,7 +8,7 @@ export function generateErrorObject(
   const error: AptoPlayError = new AptoPlayError();
 
   error.name = errorName;
-  error.message = '';
+  error.message = errorObject?.message || '';
 
   if (errorObject) {
     error.rawError = errorObject;
