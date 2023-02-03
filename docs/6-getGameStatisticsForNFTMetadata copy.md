@@ -35,7 +35,7 @@ const gameData = await aptoPlay.getGameStatisticsByStatisticNamesForNFTMetadata(
 const titleId: string = '1Q2W3';
 const xSecretKey: string = 'xdi29992mzp0dk38fhs33d984sdc...';
 
-// Make a Aptoplay Object
+// Make an Aptoplay Object
 const aptoPlay = new AptoPlay(titleId, xSecretKey);
 
 // Received User's sessionTicket
