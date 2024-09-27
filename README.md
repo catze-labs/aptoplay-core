@@ -90,3 +90,12 @@ AptoPlay.setAptosInformation(
 ## License
 
 MIT License
+
+
+### Developer : Phantola Jang (Jang Young jin)
+
+- Role : BE dev in Catze Labs
+- Univ : Seoul Nat'l university of Science & Technology. Bachelor of Computer engineering.
+- Twitter : [https://twitter.com/phantola_dev](https://x.com/vincent_J_dev)
+- linkedIn : [https://www.linkedin.com/in/phantola/](https://www.linkedin.com/in/vincentjang/)
+- Github : [github.com/phantola](https://github.com/JangVincent)
